@@ -35,7 +35,7 @@ Ensure you have **Node.js** and **npm** installed.
 
 ### **2️⃣ Clone the Repository**
 
-git clone https://github.com/YOUR_GITHUB_USERNAME/React-Effects-and-Refs-Exercise.git  
+git clone https://github.com/spencerdavis226/React-Effects-and-Refs-Exercise.git  
 cd React-Effects-and-Refs-Exercise
 
 ### **3️⃣ Install Dependencies**
@@ -56,18 +56,6 @@ Then open `http://localhost:5173` in your browser.
 - **JavaScript (ES6+)**
 - **Deck of Cards API** (for deck management)
 - **React Hooks** (`useState`, `useEffect`, `useRef`)
-
----
-
-## **📂 File Structure**
-
-/src  
- ├── components/  
- │ ├── Deck.jsx # Main component handling deck logic  
- ├── App.jsx # Root component  
- ├── main.jsx # React entry point  
- ├── index.css # Minimal styles  
- ├── assets/ # Contains screenshots or images (optional)
 
 ---
 
