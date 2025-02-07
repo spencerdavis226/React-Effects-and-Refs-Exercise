@@ -23,7 +23,7 @@ It demonstrates the use of **React Hooks (`useState`, `useEffect`, `useRef`)** b
 
 Here’s a preview of the app in action:
 
-![App Screenshot](./assets/screenshot.png)
+![App Screenshot](./src/assets/screenshot.png)
 
 ---
 
