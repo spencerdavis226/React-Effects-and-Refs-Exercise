@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 const Deck = () => {
   const [deckId, setDeckId] = useState(null);
   const [card, setCard] = useState(null);
+  const [isShuffling, setIsShuffling] = useState(false);
 
   useEffect(() => {
     async function fetchDeck() {
@@ -40,12 +41,31 @@ const Deck = () => {
     }
   }
 
+  async function shuffleDeck() {
+    try {
+      setIsShuffling(true);
+      const response = await fetch(
+        `https://deckofcardsapi.com/api/deck/${deckId}/shuffle/`
+      );
+      const data = await response.json();
+      console.log('Deck Shuffled', data);
+      setCard(null);
+    } catch (error) {
+      console.log('Error shuffling deck...', error);
+    } finally {
+      setIsShuffling(false);
+    }
+  }
+
   return (
     <div>
       <h1>Card Drawing App</h1>
       {deckId ? <p>Deck ID: {deckId}</p> : <p>Loading deck...</p>}
-      <button onClick={drawCard} disabled={!deckId}>
+      <button onClick={drawCard} disabled={!deckId || isShuffling}>
         Draw a Card
+      </button>
+      <button onClick={shuffleDeck} disabled={!deckId || isShuffling}>
+        {isShuffling ? 'Shuffling...' : 'Shuffle Deck'}
       </button>
 
       {card && (
