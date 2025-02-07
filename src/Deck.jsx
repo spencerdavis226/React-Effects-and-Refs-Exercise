@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const Deck = () => {
   const [deckId, setDeckId] = useState(null);
   const [card, setCard] = useState(null);
   const [isShuffling, setIsShuffling] = useState(false);
+  const [isAutoDrawing, setIsAutoDrawing] = useState(false);
+  const drawInterval = useRef(null);
 
   useEffect(() => {
     async function fetchDeck() {
@@ -31,6 +33,7 @@ const Deck = () => {
 
       if (data.remaining === 0) {
         alert('Error: No cards remaining!');
+        stopAutoDraw();
         return;
       }
 
@@ -44,6 +47,7 @@ const Deck = () => {
   async function shuffleDeck() {
     try {
       setIsShuffling(true);
+      stopAutoDraw();
       const response = await fetch(
         `https://deckofcardsapi.com/api/deck/${deckId}/shuffle/`
       );
@@ -57,6 +61,23 @@ const Deck = () => {
     }
   }
 
+  function startAutoDraw() {
+    if (!drawInterval.current) {
+      setIsAutoDrawing(true);
+      drawInterval.current = setInterval(() => {
+        drawCard();
+      }, 1000);
+    }
+  }
+
+  function stopAutoDraw() {
+    if (drawInterval.current) {
+      clearInterval(drawInterval.current);
+      drawInterval.current = null;
+      setIsAutoDrawing(false);
+    }
+  }
+
   return (
     <div>
       <h1>Card Drawing App</h1>
@@ -66,6 +87,12 @@ const Deck = () => {
       </button>
       <button onClick={shuffleDeck} disabled={!deckId || isShuffling}>
         {isShuffling ? 'Shuffling...' : 'Shuffle Deck'}
+      </button>
+      <button
+        onClick={isAutoDrawing ? stopAutoDraw : startAutoDraw}
+        disabled={!deckId || isShuffling}
+      >
+        {isAutoDrawing ? 'Stop Drawing' : 'Start Auto-Draw'}
       </button>
 
       {card && (
